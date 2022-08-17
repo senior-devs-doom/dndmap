@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * Karol Chruzik wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return. 
+ * ----------------------------------------------------------------------------
+-->
+	<title>Settings</title>
+	<link rel="icon" href="gui/logo.png">
+	<style>
+		*{
+	color:white;
+	}
+	header h1{
+	margin-bottom:0;
+	}
+	header p{
+	margin-top:0;
+	margin-bottom:20px;
+	}
+	header p a{
+	margin-left:0;
+	margin-right:10px;
+	font-size:15px;
+	}
+	header p a:hover{
+	color:gray;
+	}
+	body{
+	background-image: url("gui/background.jpg");
+	}
+	input,select,option{
+	color:black;
+	height:20px;
+	}
+	table input,table select,table option{
+	text-align:center;
+	width:100%;
+	}
+	button{
+	color:black;
+	}
+	main{
+	margin:50px;
+	}
+	label{
+	font-size:20px;
+	}
+	a{
+	font-size:15px;
+	margin-left:15px;
+	}
+	.deletebutton{
+	border-radius: 50%;
+	width:100%;
+	background-image: url("gui/BTNCorpseExplode.png");
+	height:var(--buttonheight);
+	background-size: contain;
+	}
+	#Tracker{
+	float:left;
+	}
+	</style>
+</head>
+<body onresize="resizeButtons()">
+	<header>
+		<h1>SETTINGS</h1>
+		<p><a target="_blank" href='Battlegrid.html'>Battlegrid</a> <a target="_blank" href='InitiativeTracker.html'>InitiativeTracker</a></p>
+		<p><button onclick='toFileSettings();'>Save Settings</button> <button onclick='fromFileSettings();'><input type="file" style='display:none;' id='fromFileSettingsInput'>	Load Settings</button></p>
+	</header>
+	<main id="main">
+		<label>Map:</label>
+		<input id='map'>
+		<button onclick='clickFile()'><input type="file" style='display:none;' id='selectMap'>Choose file</button>
+		<br/>
+		<a>*name of the map file with format</a>
+		<br/>
+		<label>Image format:</label>
+		<input id='imagesFormat'>
+		<br/>
+		<a>*format all character images share. if theres multiple formats just left blank and input full file names</a>
+		<br/>
+		<label>Square size:</label>
+		<input id='squareSize' type="number">
+		<br/>
+		<a>*size of single square(5x5 feet) in pixels</a>
+		<br/>
+		<label>Fog opacity:</label>
+		<input id='fogOpacity' type="number">
+		<br/>
+		<a>*translucence of fog of war going from 0(invisible) to 100(pure black)</a>
+		<br/>
+		<label>Fog density:</label>
+		<input id='fogDensity' type="number">
+		<br/>
+		<a>*Size of single fog square, compared to 5x5 feet square(1 is 1x1, 2 is 2x2 etc.)</a>
+		<br/><br/>
+		<hr/>
+		<div id="Tracker">
+			<label>Initiative Tracker:</label><br/>
+			<input type="radio">
+			<label>Initiative</label>
+			<input type="radio">
+			<label>Name</label>
+			<input type="radio">
+			<label>AC</label>
+			<input type="radio">
+			<label>HP</label>
+			<input type="radio">
+			<label>Type</label>
+			<input type="radio">
+			<label>Status Effects</label>
+			<input type="radio">
+			<label>Other Notes</label>
+			<input type="radio">
+			<label>Copy</label>
+			<input type="radio">
+			<label>Delete</label>
+			<input type="radio">
+			<label>Statblock</label>
+			<br/>
+			<a>*choose which columns you want to see in intiative tracker</a>
+		</div>
+		<br/><br/><br/><br/>
+		<hr/>
+		<div id="NewGuy">	
+			<label>Add a new preloaded character:</label><br/>
+			<label>Name</label>
+			<input class="NewPreload"></input>
+			<label>Movement</label>
+			<input class="NewPreload" type="number" style="width:50px;" value="30" ></input>
+			<select class="NewPreload">
+				<option value="tiny">tiny</option>
+				<option value="medium" selected='true'>medium</option>
+				<option value="large">large</option>
+				<option value="huge">huge</option>
+				<option value="gargantuan">gargantuan</option>
+			</select>
+			<select class="NewPreload">
+				<option value="amigo">Amigo</option>
+				<option value="neutral">Neutral</option>
+				<option value="notamigo">NotAmigo</option>
+				<option value="none">none</option>
+			</select>
+			<label>Initiative</label>
+			<input class="NewPreload" style="width:80px;" value="d20"></input>
+			<label>AC</label>
+			<input class="NewPreload" type="number" style="width:50px;" ></input>
+			<label>HP</label>
+			<input class="NewPreload" style="width:80px;" ></input>
+			<label>Type</label>
+			<input class="NewPreload" style="width:80px;" ></input>
+			<label>Status Effects</label>
+			<input class="NewPreload" style="width:80px;" ></input>
+			<label>Other Notes</label>
+			<input class="NewPreload" style="width:80px;" ></input>
+			<br/><br/>
+			<a>*Preloaded guy will be there everytime you open map or intiative tracker. Only name is required</a>
+			<br/>	
+			<button style="margin-left:40%;" onclick="AddAGuy()">add a guy</button>
+		</div>
+	</main>
+	<hr/>
+	<label>Preloaded characters:</label><br/>
+	<table id='Preloaded'>
+		<tr>
+			<th style="width:8%;">Name</th>
+			<th style="width:4%;">Movement</th>
+			<th style="width:6%;">Size</th>
+			<th style="width:5%;">Border</th>
+			<th style="width:3%;">Initiative</th>
+			<th style="width:3%;">AC</th>
+			<th style="width:3%;">HP</th>
+			<th style="width:10%;">Type</th>
+			<th style="width:10%;">Status Effects</th>
+			<th>Other Notes</th>
+			<th style="width:3%;"></th>
+		</tr>
+	</table>
+</body>
+<script>
+function AddAGuy(){
+var guy=document.getElementsByClassName('NewPreload');
+var newRow=document.createElement("tr");
+document.getElementById('Preloaded').appendChild(newRow);
+for(var i=0;i<guy.length;i++){
+	var newCell=document.createElement("td");
+	newRow.appendChild(newCell);
+	newCell.innerHTML="<input value='"+guy[i].value+"'>";
+}
+newRow.innerHTML+="<td><button class='deletebutton'  onclick='preloadRemove()'></button></td>";
+}
+function uncheck(){//html always set check to true before checking my code. we should take the bool and put it somewhere else! Patrick, that idea may jsut be crazy enough to get us all killed.
+if(event.target.checkedFlag!=true)
+	event.target.checkedFlag=true;
+else
+	event.target.checkedFlag=false;
+event.target.checked=event.target.checkedFlag;
+}
+function preloadRemove(){
+event.target.parentNode.parentNode.remove();
+}
+function resizeButtons(){
+document.documentElement.style.setProperty('--buttonheight', window.innerWidth/100*2.8 + "px");
+}
+function loadSettings(){
+document.getElementById('map').value=map;
+document.getElementById('imagesFormat').value=imagesFormat;
+document.getElementById('squareSize').value=squareSize;
+document.getElementById('fogOpacity').value=fogOpacity*100;
+document.getElementById('fogDensity').value=fogDensity;
+var tcount=0;
+for(i=2;i<document.getElementById('Tracker').children.length-2;i+=2){
+	document.getElementById('Tracker').children[i].checked=visibleColumns[tcount];
+	document.getElementById('Tracker').children[i].checkedFlag=visibleColumns[tcount];
+	tcount++
+}
+for(var i=0;i<preChar.length;i++){
+	var newRow=document.createElement("tr");
+	for(var ii=0;ii<preChar[i].length;ii++){
+		var newCell=document.createElement("td");
+		switch(ii) {
+		case 1:
+			newCell.innerHTML="<input  value='"+preChar[i][ii]+" ft.'>";
+			break;
+		default:
+			newCell.innerHTML="<input  value='"+preChar[i][ii]+"'>";
+		}
+		newRow.appendChild(newCell);
+	}
+	newRow.innerHTML+="<td><button class='deletebutton'  onclick='preloadRemove()'></button></td>";
+	document.getElementById('Preloaded').appendChild(newRow);
+}
+
+}
+function saveSettings(){
+var preloaded=document.getElementById('Preloaded').children;
+var settings=`
+	var map = "${document.getElementById('map').value}";
+	var imagesFormat = "${document.getElementById('imagesFormat').value}";
+	var squareSize = "${document.getElementById('squareSize').value}";
+	var fogOpacity = "${document.getElementById('fogOpacity').value/100}";
+	var fogDensity = "${document.getElementById('fogDensity').value}";
+	var visibleColumns= [`;
+for(var i=2;i<document.getElementById('Tracker').children.length-2;i+=2){
+		settings+=document.getElementById('Tracker').children[i].checked+',';
+}
+settings = settings.substring(0, settings.length - 1);//remove last ','
+settings +=`];
+	var preChar =[
+	`;
+for(i=1;i<preloaded.length;i++){
+	settings +='['
+	for(var ii=0;ii<preloaded[i].children.length-1;ii++){
+		switch(ii) {
+		case 1:
+			settings +='"'+parseInt(preloaded[i].children[ii].children[0].value)+'",';
+			break;
+		default:
+			settings +='"'+preloaded[i].children[ii].children[0].value+'",';
+		}
+	}
+	settings = settings.substring(0, settings.length - 1);//remove last ','
+	settings +=`],
+	`;
+}
+settings = settings.substring(0, settings.length - 2);//remove last ','
+settings +=`
+	];`;
+localStorage.setItem('DnDSettings', settings)
+}
+function clickFile(){//input type file is bit scuffed, dont even know if its possible to change it well with CSS, so please support it in its transition to a button.
+	//This is still scuff btw, the function activates twice first from button then itself from input. freaking inheritence, I'd rather just add an if then prevent it doe..
+	if(event.target.nodeName!='INPUT')
+		event.target.children[0].click();
+}
+function selectMap(){
+	document.getElementById('map').value=event.target.value.slice(12);
+}
+function toFileSettings(){
+	var content= localStorage.getItem('DnDSettings');
+	var title= prompt("Enter how you'd like to name the save", "Last Campaign Settings");
+	var file = new File([content], title+".html");
+	var url = URL.createObjectURL(file);
+	var a = document.createElement("a");
+	a.href = url;
+    a.download = title+".txt";
+	a.innerHTML='hi';
+    document.body.appendChild(a);
+	a.click();
+	a.remove();
+}
+function fromFileSettings(){
+	if(event.target.nodeName!='INPUT')
+	event.target.children[0].click();
+	//localStorage.setItem('DnDSettings','');
+}
+function fromFileSettings2(){
+	console.log(event.target);
+	//localStorage.setItem('DnDSettings','');
+}
+document.getElementById('Tracker').addEventListener("click", uncheck);
+document.getElementById('selectMap').addEventListener("change",selectMap);
+resizeButtons();
+if(localStorage.getItem('DnDSettings')){//get settings
+	eval(localStorage.getItem('DnDSettings'));
+}
+else{//default settings
+	localStorage.setItem('DnDSettings', `
+	var map = "CragmawCastle.jpg";
+	var imagesFormat = ".jpg";
+	var squareSize = "45";
+	var fogOpacity = "0.95";
+	var fogDensity = "1";
+	var visibleColumns= [true,true,true,true,true,false,false,true,true];
+	var preChar =[
+	["Kairn","30","medium","amigo","d20+4","16","36","humanoid","","twink with a wig. No but seriously, how do I contain whole sentences here?"],
+	["Luxaria","30","medium","amigo","d20-1","18","31","humanoid","",""],
+	];`);
+	eval(localStorage.getItem('DnDSettings'));
+}
+loadSettings();
+setInterval(function(){ saveSettings(); }, 250);
+document.getElementById('fromFileSettingsInput').addEventListener("change",fromFileSettings2);
+</script>
+</html>

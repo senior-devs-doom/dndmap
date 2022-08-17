@@ -1,0 +1,18 @@
+My notes about to app for myself. I was to lazy to delete ti.
+
+
+RESTRUCTURE WHOLE THING WITH CHARACTER AS ACTUAL OBJECT(okay but why doe? so far the only downside has be no assigned functions which is like, meh.)
+
+
+add custom size
+
+moving characters in initiative tracker can bug the fuck out
+
+loading presetcharacters has some lazyness scuff(tm)
+
+UI for changing monstervault
+
+maybe make it work as actual online app?
+
+COMMENT AND CLEAN THIS BITCH UP
+(this one will never be completed)

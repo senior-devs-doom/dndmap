@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+ * ----------------------------------------------------------------------------
+ * "THE BEER-WARE LICENSE" (Revision 42):
+ * Karol Chruzik wrote this file. As long as you retain this notice you
+ * can do whatever you want with this stuff. If we meet some day, and you think
+ * this stuff is worth it, you can buy me a beer in return. 
+ * ----------------------------------------------------------------------------
+-->
+	<title>Initiative Tracker</title>
+	<link rel="icon" href="gui/logo.png">
+	<script src="MonsterVault.js"></script>
+	<style>
+	*{
+	color:white;
+	}
+	header h1{
+	margin-bottom:0;
+	}
+	header p{
+	margin-top:0;
+	margin-bottom:20px;
+	}
+	header p a{
+	margin-left:0;
+	margin-right:10px;
+	font-size:15px;
+	}
+	header p a:hover{
+	color:gray;
+	}
+	body{
+	background-image: url("gui/background.jpg");
+	}
+	input{
+	color:black;
+	}
+	button{
+	color:black;
+	}
+	main{
+	margin:50px;
+	}
+	.Initiative *{
+	width:60px;
+	margin:0;
+	float:left;
+	}
+	.Initiative div{
+	height:22px;
+	width:22px;
+	}
+	.Initiative div button{
+	height:10.9px;
+	float:left;
+	font-size:7px;
+	width:20px;
+	}
+	.Name *{
+	width:150px;
+	}
+	.AC *{
+	width:40px;
+	}
+	.HP *{
+	width:70px;
+	}
+	.Type *{
+	width:200px;
+	}
+	.StatusEffects *{
+	width:200px;
+	}
+	.OtherNotes *{
+	width:400px;
+	}
+	#options{
+	width:146px;
+	position:absolute;
+	background-color:white;
+	border:solid 2px #cc1100;
+	}
+	#options p{
+	width:148px;
+	margin-left:-1px;
+	margin-bottom:0;
+	padding:0;
+	color:black
+	}
+	#options p:hover{
+	background-color:#3399ff;
+	}
+	#options a{
+	display:none;
+	}
+	h1{
+	margin-bottom:0;
+	}
+	p{
+	margin-top:0;
+	margin-left:0;
+	margin-bottom:20px;
+	}
+	p a{
+	margin-left:0;
+	margin-right:10px;
+	font-size:15px;
+	}
+	p a:hover{
+	color:gray;
+	}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Initiative Tracker</h1>
+		<p><a target="_blank" href='Settings.html'>Settings</a> <a target="_blank" href='Battlegrid.html'>Battlegrid</a></p>
+	</header>
+	<main id="main">
+	<table id='table'>
+  <tr>
+	<th></th>
+	<th class="Initiative">Initiative</th>
+    <th class="Name">Name</th>
+    <th class="AC">AC</th>
+    <th class="HP">HP</th>
+	<th class="Type">Type</th>
+	<th class="StatusEffects">Status Effects</th>
+	<th class="OtherNotes">Other Notes</th>
+  </tr>
+  <tr>
+	<td>1st</td>
+	<td class="Initiative">   <input value='d20+2'><div><button onclick='moveUp()'>/\</button><button onclick='moveDown()'>\/</button></div></td>
+    <td class="Name">         <input value='boblin'></td>
+    <td class="AC">           <input value='15'></td>
+    <td class="HP">           <input value='2d6'></td>
+	<td class="Type">         <input value='Small humanoid (goblinoid)'></td>
+	<td class="StatusEffects"><input value='poisoned'></td>
+	<td class="OtherNotes">   <input value='goblin the boblin he walkin'></td>
+	<td class='Copy'><button onclick='copyR()'>Copy</button></td>
+	<td class='Delete'><button onclick="deleteR()">Delete</button></td>
+	<td class='Statblock'><button onclick="linkStat()">Statblock</button></td>
+  </tr>
+  <tr>
+	<td>2nd</td>
+	<td class="Initiative">   <input><div><button onclick='moveUp()'>/\</button><button onclick='moveDown()'>\/</button></div></td>
+    <td class="Name">         <input></td>
+    <td class="AC">           <input></td>
+    <td class="HP">           <input></td>
+	<td class="Type">         <input></td>
+	<td class="StatusEffects"><input></td>
+	<td class="OtherNotes">   <input></td>
+	<td class='Copy'><button onclick='copyR()'>Copy</button></td>
+	<td class='Delete'><button onclick="deleteR()">Delete</button></td>
+	<td class='Statblock'><button onclick="linkStat()">Statblock</button></td>
+  </tr>
+  <tr>
+	<td>3rd</td>
+	<td class="Initiative">   <input><div><button onclick='moveUp()'>/\</button><button onclick='moveDown()'>\/</button></div></td>
+    <td class="Name">         <input></td>
+    <td class="AC">           <input></td>
+    <td class="HP">           <input></td>
+	<td class="Type">         <input></td>
+	<td class="StatusEffects"><input></td>
+	<td class="OtherNotes">   <input></td>
+	<td class='Copy'><button onclick='copyR()'>Copy</button></td>
+	<td class='Delete'><button onclick="deleteR()">Delete</button></td>
+	<td class='Statblock'><button onclick="linkStat()">Statblock</button></td>
+  </tr>
+ </table>
+<br>
+<button onclick="sort()">Sort Initiative</button>
+<button onclick='rollSearch()'>Roll the dice</button>
+<button onclick="addR()">Add row</button>
+</main>
+</body>
+<script>
+function SiteToVar(){
+	var table=document.getElementById('table').children[0];	
+	for(var i=1;i<table.childElementCount;i++){
+		var row=table.children[i];
+		var arrayRow=new Array();
+		for(var ii=0;ii<row.childElementCount-3;ii++){
+				arrayRow[ii]=row.children[ii+1].children[0].value;
+		}
+		array[i-1]=arrayRow;
+	}
+}
+function VarToSite(){
+	for(var i=1;i<document.getElementById('table').children[0].childElementCount;i++){
+		for(var ii=1;ii<document.getElementById('table').children[0].children[i].childElementCount;ii++){
+			document.getElementById('table').children[0].children[i].children[ii].children[0].value=array[i-1][ii-1];
+		}
+	}
+}
+function recount(){
+	var table=document.getElementById('table').children[0];
+	for(var i=1;i<table.childElementCount;i++){
+		switch(i) {
+		case 1:
+			table.children[i].children[0].innerHTML='1st';
+			break;
+		case 2:
+			table.children[i].children[0].innerHTML='2nd';
+			break;
+		case 3:
+			table.children[i].children[0].innerHTML='3rd';
+			break;
+		default:
+			table.children[i].children[0].innerHTML=i+'th';
+		}
+	}
+}
+function changePlaces(firstR,secondR){
+	var temporary=new Array();
+	for(var i=0;i<firstR.length;i++){
+		temporary[i]=firstR[i];
+	}
+	for(var i=0;i<secondR.length;i++){
+		firstR[i]=secondR[i];
+	}
+	for(var i=0;i<secondR.length;i++){
+		secondR[i]=temporary[i];
+	}
+}
+function sort(){
+	rollSearch()
+	var sorted=false;
+	var rollEnd=0;
+	for(var i=0;i<array.length;i++){//change blank field to 0
+		if(array[i][0]=="")
+			array[i][0]=0;
+		else
+			array[i][0]=parseInt(array[i][0]);
+	}
+	while(!sorted){//reverse bubble sort, pebble sort?
+		sorted=true;
+		for(i=1;i<array.length-rollEnd;i++){
+			if(array[i-1][0]<array[i][0]){
+				changePlaces(array[i-1],array[i]);
+				sorted=false;
+			}
+		}
+		rollEnd++;
+	}
+	for(var i=0;i<array.length;i++){//change 0 to blank field
+		if(array[i][0]==0)
+			array[i][0]="";
+	}
+	VarToSite();
+}
+function rollSearch(){
+	SiteToVar();
+	var reg=new RegExp('^[d,D][\\d]|[^a-zA-Z][d,D][\\d]');//bit akward since this dummy returns negative to "not a letter" if its begining of a string. null is not a letter too genius!
+	for(var i=0;i<array.length;i++){
+		for(var ii=0;ii<array[i].length;ii++){
+			if(reg.test(array[i][ii])){
+				array[i][ii]=roll(array[i][ii]);
+			}
+		}
+	}
+	VarToSite();
+}
+function roll(string){
+	var isNumber=new RegExp('[0-9]');
+	string=string.toLowerCase();
+	while(string.indexOf("d")!=-1){
+		var rightNumI=string.indexOf("d")+1;//variable holds index number
+		var rightNum=''
+		var leftNumI=string.indexOf("d")-1;//variable holds index number
+		var leftNum='';
+		var number=0;
+		while(isNumber.test(string[rightNumI])){
+			rightNumI++;
+		}
+		rightNumI--;
+		rightNum=string.substr(string.indexOf("d")+1,rightNumI);
+		rightNum=parseInt(rightNum);
+		while(isNumber.test(string[leftNumI])){
+			leftNumI--;
+		}
+		leftNumI++;
+		leftNum=string.substr(leftNumI,string.indexOf("d"));
+		if(leftNumI==string.indexOf("d"))
+			leftNum=1;
+		leftNum=parseInt(leftNum);
+		for(var i=0;i<leftNum;i++){
+			number+=Math.floor(Math.random() * rightNum)+1;
+		}
+		//K, I rolled the dice, now rebuild the string with result instead of whatever d.
+		var newString='';
+		var numberAdded=false;
+		for(i=0;i<string.length;i++){
+			if(i>=leftNumI && i<=rightNumI){
+				if(!numberAdded){
+					newString+=number;
+					numberAdded=true;
+				}
+			}	
+			else
+				newString+=string[i];
+		}
+		string=newString;
+	}
+	//everything is rolled, only simple math left
+	var i=0;
+	leftNum='';
+	rightNum='';
+	sign='';
+	while(isNumber.test(string[i])){
+		leftNum+=string[i];
+		i++;
+	}
+	leftNum=parseInt(leftNum);
+	while(i<=string.length){//first gets a sign, then right number, then executes case statement, reset right number , new sign, get right number, case etc. untill string is over.
+		if(!isNumber.test(string[i])){
+			if(rightNum!=''){
+				switch(sign) {
+					case '+':
+						leftNum=leftNum+parseInt(rightNum);
+						break;
+					case '-':
+						leftNum=leftNum-parseInt(rightNum);
+						break;
+				}
+				rightNum='';
+			}
+			sign=string[i]
+		}
+		else{
+			rightNum+=string[i];
+		}
+		i++;
+	}
+	string=leftNum;
+	return string;
+}
+function addR(){
+	var table=document.getElementById('table').children[0];
+	var number=parseInt(table.children[table.childElementCount-1].children[0].innerHTML)+1;
+	var tr=document.createElement('tr');
+	tr.innerHTML+="<td>"+number+"th</td><td class='Initiative'>   <input><div><button onclick='moveUp()'>/\\</button><button>\\/</button></div></td><td class='Name'>         <input ></td><td class='AC'>           <input></td><td class='HP'>           <input></td><td class='Type'>         <input></td><td class='StatusEffects'><input></td><td class='OtherNotes'>   <input></td><td class='Copy'><button onclick='copyR()'>Copy</button></td><td><button onclick='deleteR()'>Delete</button></td><td class='Statblock'><button onclick='linkStat()'>Statblock</button></td>"
+	table.appendChild(tr);
+	loadSettings();
+}
+function moveUp(){
+	SiteToVar();
+	place=parseInt(event.target.parentNode.parentNode.parentNode.children[0].innerHTML)-1;
+	if(place!=0)
+		changePlaces(array[place],array[place-1]);
+	VarToSite();
+}
+function moveDown(){
+	SiteToVar();
+	place=parseInt(event.target.parentNode.parentNode.parentNode.children[0].innerHTML)-1;
+	table=document.getElementById('table').children[0];
+	table=parseInt(table.children[table.childElementCount-1].children[0].innerHTML)-1;
+	if(place!=table)
+		changePlaces(array[place+1],array[place]);
+	VarToSite();
+}
+function copyR(){
+	var table=event.target.parentNode.parentNode.parentNode;
+	var clickedGuy=event.target.parentNode.parentNode;
+	var copy=document.createElement("tr");
+	copy.innerHTML=clickedGuy.innerHTML;
+	for(var i=1;i<clickedGuy.childElementCount-2;i++){
+		copy.children[i].children[0].value=clickedGuy.children[i].children[0].value;
+	}
+	table.insertBefore(copy,clickedGuy.nextSibling);
+	outer_loop:
+	for(i=1;i<table.childElementCount;i++){
+		var empty=true;
+		for(var ii=1;ii<table.children[i].childElementCount-2;ii++){
+			if(!table.children[i].children[ii].children[0].value=="")
+				empty=false;
+		}
+		if(empty){
+			table.children[i].remove();
+			break outer_loop;
+		}
+	}
+	recount();
+}
+function deleteR(){
+	event.target.parentNode.parentNode.remove();
+	recount();
+}
+function linkStat(){//create and click a link to stat block site based on monstie name
+	var name= event.target.parentNode.parentNode.children[2].children[0].value.replace(/[0-9]/g, '');//gets name and deletes numbers from it.
+	var link=document.createElement('a');
+	link.target='_blank'
+	link.href='https://jsigvard.com/dnd/monster.php?m=' + name;
+	if(!name){//when name is empty go to all monsties list
+	link.href='https://jsigvard.com/dnd/Monsters.html';
+	}
+	link.click();
+	link.remove();
+}
+function suggest(){//quickload creature from vault
+	if(event.target.parentNode.className=="Name"){
+		if(document.getElementById("options"))
+			document.getElementById("options").remove();
+		var options=document.createElement("div");
+		options.id="options";
+		options.innerHTML="";
+		event.target.parentNode.appendChild(options);
+		var limit=0;
+		var reg=new RegExp(event.target.value)
+		for(var i=0;i<=vault.length-1;i++){
+			if(reg.test(vault[i][0].toLowerCase())){
+				options.innerHTML+="<p onclick='vaultsin()'>"+vault[i][0]+"</p>"+"<a>"+i+"</a>";
+				limit++
+				if(limit>=10)
+					break;
+			}
+		}
+		document.body.addEventListener('mousedown',suggestRemove);
+		if(options.children.length==0)
+			suggestRemove();
+	}
+}
+function vaultsin(){
+	var row=event.target.parentNode.parentNode.parentNode;
+	var num=parseInt(event.target.nextSibling.innerHTML);
+	row.children[1].children[0].value=vault[num][1];
+	row.children[2].children[0].value=vault[num][0];
+	row.children[3].children[0].value=vault[num][2];
+	row.children[4].children[0].value=vault[num][3];
+	row.children[5].children[0].value=vault[num][4];
+	row.children[6].children[0].value=vault[num][5];
+	row.children[7].children[0].value=vault[num][6];
+	document.getElementById("options").remove();
+	document.body.removeEventListener('mousedown',suggestRemove);
+}
+function suggestRemove(){
+	if(!(event.target==document.getElementById('options') || event.target.parentNode==document.getElementById('options'))){
+		document.getElementById("options").remove();
+		document.body.removeEventListener('mousedown',suggestRemove);
+	}
+}
+function loadCharacters(){
+	SiteToVar();
+	for(var i=0;i<=preChar.length-1;i++){
+	array[i][0]=preChar[i][4];
+	array[i][1]=preChar[i][0];
+	array[i][2]=preChar[i][5];
+	array[i][3]=preChar[i][6];
+	array[i][4]=preChar[i][7];
+	array[i][5]=preChar[i][8];
+	array[i][6]=preChar[i][9];
+	}
+	VarToSite();
+}
+function loadSettings(){
+	if(!visibleColumns[0]){
+		var columns = document.getElementsByClassName('Initiative');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[1]){
+		var columns = document.getElementsByClassName('Name');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[2]){
+		var columns = document.getElementsByClassName('AC');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[3]){
+		var columns = document.getElementsByClassName('HP');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[4]){
+		var columns = document.getElementsByClassName('Type');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[5]){
+		var columns = document.getElementsByClassName('StatusEffects');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[6]){
+		var columns = document.getElementsByClassName('OtherNotes');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[7]){
+		var columns = document.getElementsByClassName('Copy');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}	
+	if(!visibleColumns[8]){
+		var columns = document.getElementsByClassName('Delete');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+	if(!visibleColumns[9]){
+		var columns = document.getElementsByClassName('Statblock');
+		for (var i = 0; i < columns.length; i++) {
+		columns[i].style.display = 'none';
+		}	
+	}
+}
+if(localStorage.getItem('DnDSettings')){//get settings
+	eval(localStorage.getItem('DnDSettings'));
+}
+else{//default settings
+	localStorage.setItem('DnDSettings', `
+	var map = "CragmawCastle.jpg";
+	var imagesFormat = ".jpg";
+	var squareSize = "45";
+	var fogOpacity = "0.95";
+	var fogDensity = "1";
+	var visibleColumns= [true,true,true,true,true,false,false,true,true];
+	var preChar =[
+	["Kairn","30","medium","amigo","d20+4","16","36","humanoid","","twink with a wig. No but seriously, how do I contain whole sentences here?"],
+	["Luxaria","30","medium","amigo","d20-1","18","31","humanoid","",""],
+	];`);
+	eval(localStorage.getItem('DnDSettings'));
+}
+var array=new Array();
+for(var i=0;i<=11;i++){
+	addR();
+}	
+loadCharacters();
+loadSettings();	
+document.body.addEventListener('keyup',suggest);
+</script>
+</html>
