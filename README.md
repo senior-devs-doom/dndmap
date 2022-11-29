@@ -1,0 +1,1 @@
+jeśli odesłałem tu państwo z mojego cv najmocniej przepraszam, nie wprowadziłem jeszcze swoich projektów ponieważ oddałem laptopa z najnowszymi wersjami do naprawy. Obecnie jest tu tylko wirtualna mapa do gry D&D sprzed kilku miesięcy
