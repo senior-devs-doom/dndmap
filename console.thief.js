@@ -56,7 +56,9 @@ document.body.appendChild(a);
 a.click();
 a.remove();
 
-
+/////
+//Upper row was to download small database(300~ rows) of monster data from HTML and save as file from console on outside website
+//lower is another quick console script that tests how likely Reborn race is to survive uninterrupted death saves. Quite likely
 /////
 
 var passed=0;
@@ -67,7 +69,7 @@ var roll1=0;
 var roll2=0;
 var inwhilel=0;
 var inwhilew=0;
-for(var i=1;i<=10000000;i++){
+for(var i=1;i<=100000;i++){
 	while(inwhilew!=3 && inwhilel!=3){
 	roll1=Math.floor(Math.random() * (21 - 1)) + 1;
 	roll2=Math.floor(Math.random() * (21 - 1)) + 1;
