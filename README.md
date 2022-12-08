@@ -1,4 +1,6 @@
-Mapa do gry tabletop na urządzeniach elektronicznych, ponieważ niepodobały mi sie rynkowe alternatywy. 
+#app is fully in english, I'm just dropping readme in my native language for the sake of CV#
+
+Mapa do gier tabletop na urządzeniach elektronicznych, ponieważ niepodobały mi sie rynkowe alternatywy. 
 
 Wykonana w vanilla javascript bez żadnego IDE, bibliotek albo serwera.
 
