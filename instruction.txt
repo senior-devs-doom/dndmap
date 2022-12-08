@@ -4,14 +4,14 @@ welcome to my simple dnd battlegrid!
 INTRODUCTION
 The battlegrid on roll20 is a pain! I made my own version for personal use, then it kept growing to the point where I think now someone else might make use out of it so here we are.
 This app is meant to be used with sharedscreen in programs such as discord, simply share battlegrid on your voice channel and you are set.
-The idea is you make most modification to your map in graphical tool like pain or gimp and then adjust battlegrid to it, 
+The idea is you make most modification to your map in graphical tool like pain or gimp and then easily adjust battlegrid to it, 
 for example measure 5 feet distance on your map in pixels and then input it into settings, the character tokens and fog of war size will be adjusted automatically.
 if you want bigger map just make image itself bigger, easy! 
 Also beware that refreshing the page deletes all the changes you made to it.
 The app is already equiped with my mines of phandelver campaign for easier understanding.
 The program is made with javascript, serverless local webapp as its the one I'm most comfortable with. 
 The settings are saved in browser's localstorage, DOES NOT REQUIRE INTERNET TO WORK.
-I've just graduated from highschool so the code in the app is quite basic, if you have minimal understanding of javascript you can jump in and mod it  to your hearts content!(Please fix my ugly frontend)
+the code in the app is quite basic, if you have minimal understanding of javascript you can jump in and mod it  to your hearts content!(Please fix my ugly frontend)
 If you find some part of my garbage code suboptimal, write me what it is. I did this project mostly to self improve as theres still a lot I don't understand. 
 If the changes pile up I will probably release new version.
 
@@ -31,25 +31,20 @@ At the moment settings save themselves automatically when opened, 4 times per se
 FOG OF WAR
 
 For bigger dungeons when you don't want your players to see all of it at once: first set all the monsters on their positions, then use 'fog on war' button, 
-it will cover the map with black squares(fog) that you can disperse by holding left click or hovering over it.
+it will cover the map with black squares(fog) that you can disperse by holding left click and hovering over it.
 The app freezes for a while when generating the fog, simply click the button once and be patient, on big maps browser might think the app crashed, tell it to wait.
 You can input how precise you want the fog to be in FogDensity. 
 Keep in mind squarelaw, if you double the dimensions of black square the app will need to create four times less squares, 
 and will need four times less time to cover whole map. this  works both ways.
 
 CLICKING AND BUTTONS
-press keyboard buttons 1 to 5 to change what left click does
-1(default)moving - When you click character you grab it, the range of their movement is shown, and you can click again anywhere to move it.
-2 unconsious - makes the character see throu, it fell flat on its ass, usefull for counting EXP. 
-Theres something satisfying about clearing dungeon and then looking back to see all the corpses.
-3 hide - makes the character invisible, however it still works as normal. Press again to show it.
-COME BACK HERE LATER AND FINISH ME ASSHOLE
+just click 6 or blue scroll, then hover over buttons to se what they do
 
 
 SAVING AND LOADING
 
-For security reasons I can only save your stuff into download folder throu html. 
+In this setup for security reasons I can only save your current map into download folder. 
 So just take that bad boy, put it back into main folder where BattleGrid is and its done.
 Now, some might say downloading entire file for every save is scuffed and inefficient. 
 it is however, extremely simple.
-I might instead make saving and loading from local storage if people demand it. I don't think its better doe.
+I might instead make saving and loading from local storage if people demand it. I don't think its a better solution doe.

@@ -341,7 +341,7 @@ function addR(){
 	var table=document.getElementById('table').children[0];
 	var number=parseInt(table.children[table.childElementCount-1].children[0].innerHTML)+1;
 	var tr=document.createElement('tr');
-	tr.innerHTML+="<td>"+number+"th</td><td class='Initiative'>   <input><div><button onclick='moveUp()'>/\\</button><button>\\/</button></div></td><td class='Name'>         <input ></td><td class='AC'>           <input></td><td class='HP'>           <input></td><td class='Type'>         <input></td><td class='StatusEffects'><input></td><td class='OtherNotes'>   <input></td><td class='Copy'><button onclick='copyR()'>Copy</button></td><td><button onclick='deleteR()'>Delete</button></td><td class='Statblock'><button onclick='linkStat()'>Statblock</button></td>"
+	tr.innerHTML+="<td>"+number+"th</td><td class='Initiative'>   <input><div><button onclick='moveUp()'>/\\</button><button  onclick='moveDown()'>\\/</button></div></td><td class='Name'>         <input ></td><td class='AC'>           <input></td><td class='HP'>           <input></td><td class='Type'>         <input></td><td class='StatusEffects'><input></td><td class='OtherNotes'>   <input></td><td class='Copy'><button onclick='copyR()'>Copy</button></td><td><button onclick='deleteR()'>Delete</button></td><td class='Statblock'><button onclick='linkStat()'>Statblock</button></td>"
 	table.appendChild(tr);
 	loadSettings();
 }
